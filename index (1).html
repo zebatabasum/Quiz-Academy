@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full select-none overflow-hidden">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zeba Quiz Academy — Test Your Intellect</title>
+  
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800;900&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: #05050a;
+      transition: opacity 0.8s ease, filter 0.8s ease;
+    }
+    .font-gaming { font-family: 'Orbitron', sans-serif; }
+    
+    /* Premium Neon Glow */
+    .premium-glow {
+      box-shadow: 0 0 40px -10px rgba(147, 51, 234, 0.15), 0 0 40px -10px rgba(6, 182, 212, 0.15);
+    }
+    
+    /* Cyberpunk Grid */
+    .grid-bg {
+      background-image: linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), 
+                        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+      background-size: 50px 50px;
+    }
+
+    /* Blur & Fade Out Effect for Main Card */
+    .blur-out {
+      filter: blur(20px) !important;
+      opacity: 0 !important;
+      transform: scale(0.95) !important;
+      transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+    
+    /* Smooth Transition Utilities */
+    .fade-transition {
+      transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    }
+  </style>
+</head>
+<body id="main-body" class="h-full flex items-center justify-center relative overflow-hidden bg-[#040408]">
+
+  <div class="absolute inset-0 z-0 pointer-events-none">
+    <div class="absolute inset-0 grid-bg opacity-60"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-600/5 rounded-full blur-[180px]"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[140px]"></div>
+  </div>
+
+  <main id="intro-card" class="relative z-10 w-full max-w-md mx-4 p-[1px] rounded-2xl transition-all duration-700 transform scale-100 opacity-100">
+    <div class="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent rounded-2xl pointer-events-none"></div>
+    
+    <div class="relative bg-[#090911]/80 backdrop-blur-3xl p-8 rounded-2xl border border-white/[0.06] text-center premium-glow">
+      
+      <div class="relative w-20 h-20 mx-auto mb-6 group">
+        <div class="absolute inset-0 bg-gradient-to-r from-purple-500 to-cyan-400 rounded-xl blur-md opacity-20 group-hover:opacity-40 transition-opacity duration-500"></div>
+        <div class="relative w-full h-full bg-[#0d0d18] border border-white/10 rounded-xl flex items-center justify-center transition-all duration-300 group-hover:border-purple-500/40">
+          <i class="fa-solid fa-brain text-3xl bg-gradient-to-r from-purple-400 to-cyan-400 bg-clip-text text-transparent"></i>
+        </div>
+      </div>
+
+      <h1 class="font-gaming text-2xl font-black tracking-wider text-white mb-1 uppercase">
+        ZEBA QUIZ
+        <span class="block text-[10px] tracking-[0.6em] text-cyan-400/90 mt-1 font-bold">ACADEMY</span>
+      </h1>
+      
+      <p class="text-[9px] text-gray-500 font-gaming uppercase tracking-[0.3em] mb-8">
+        — Test Your Intellect —
+      </p>
+
+      <!-- Updated Sections for an Academy -->
+      <div class="grid grid-cols-3 gap-1 mb-8 bg-white/[0.02] p-2.5 rounded-xl border border-white/[0.04] text-[10px] font-gaming tracking-widest text-gray-400">
+        <div class="flex flex-col items-center py-2 border-r border-white/[0.05]">
+          <i class="fa-solid fa-lightbulb text-cyan-400/80 mb-1.5 text-xs"></i> <span>LEARN</span>
+        </div>
+        <div class="flex flex-col items-center py-2 border-r border-white/[0.05]">
+          <i class="fa-solid fa-graduation-cap text-purple-400/80 mb-1.5 text-xs"></i> <span>QUIZ</span>
+        </div>
+        <div class="flex flex-col items-center py-2">
+          <i class="fa-solid fa-medal text-amber-400/80 mb-1.5 text-xs"></i> <span>EXCEL</span>
+        </div>
+      </div>
+
+      <div class="h-14 relative flex items-center justify-center overflow-hidden">
+        
+        <div id="loader-wrapper" class="w-full space-y-2 fade-transition">
+          <div class="w-full bg-white/[0.03] h-1 rounded-full overflow-hidden border border-white/[0.05]">
+            <div id="loading-bar" class="w-0 h-full bg-gradient-to-r from-purple-500 to-cyan-400 rounded-full transition-all duration-100 ease-out"></div>
+          </div>
+          <div class="flex justify-between text-[9px] text-gray-500 font-gaming tracking-widest uppercase">
+            <span class="animate-pulse">Loading Academy Portal...</span>
+            <span id="load-percentage" class="text-gray-400 font-bold">0%</span>
+          </div>
+        </div>
+
+        <button onclick="enterGame()" id="enter-btn" class="hidden opacity-0 scale-95 absolute inset-0 w-full h-full bg-gradient-to-r from-purple-600 to-cyan-500 rounded-xl p-[1px] fade-transition hover:shadow-[0_0_30px_rgba(147,51,234,0.3)] active:scale-98 cursor-pointer">
+          <span class="flex items-center justify-center gap-2 w-full h-full bg-[#090911] rounded-[11px] font-gaming text-xs font-bold tracking-[0.2em] text-white transition-all duration-300 hover:bg-transparent">
+            ENTER ACADEMY <i class="fa-solid fa-arrow-right text-[10px] text-cyan-400"></i>
+          </span>
+        </button>
+
+      </div>
+
+    </div>
+  </main>
+
+
+  <div id="fullscreen-loader" class="hidden opacity-0 fixed inset-0 z-50 bg-[#040408]/95 backdrop-blur-2xl flex flex-col items-center justify-center transition-all duration-700">
+    <div class="w-full max-w-xs text-center space-y-6 px-4">
+      
+      <div class="relative w-16 h-16 mx-auto flex items-center justify-center">
+        <div class="absolute inset-0 border-2 border-t-purple-500 border-r-cyan-400 border-b-transparent border-l-transparent rounded-full animate-spin"></div>
+        <div class="absolute inset-2 border border-dashed border-white/10 rounded-full animate-[spin_4s_linear_infinite_reverse]"></div>
+        <i class="fa-solid fa-brain text-lg text-cyan-400/80"></i>
+      </div>
+
+      <div class="space-y-3">
+        <h2 id="fs-status" class="font-gaming text-xs font-bold tracking-[0.3em] text-white uppercase animate-pulse">
+          INITIALIZING PORTAL...
+        </h2>
+        <div class="w-full bg-white/[0.03] h-1 rounded-full overflow-hidden border border-white/[0.05] premium-glow">
+          <div id="fs-loading-bar" class="w-0 h-full bg-gradient-to-r from-purple-500 to-cyan-400 rounded-full transition-all duration-100 ease-out"></div>
+        </div>
+        <div class="flex justify-between font-gaming text-[9px] text-gray-500 tracking-widest">
+          <span>SECURE ACADEMY SERVERS</span>
+          <span id="fs-percentage" class="text-cyan-400 font-bold">0%</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <audio id="click-sound" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-84.wav" preload="auto"></audio>
+
+  <script>
+    const loadingBar = document.getElementById('loading-bar');
+    const loadPercentage = document.getElementById('load-percentage');
+    const loaderWrapper = document.getElementById('loader-wrapper');
+    const enterBtn = document.getElementById('enter-btn');
+    const card = document.getElementById('intro-card');
+    const body = document.getElementById('main-body');
+    
+    // Fullscreen Loader Elements
+    const fsLoader = document.getElementById('fullscreen-loader');
+    const fsLoadingBar = document.getElementById('fs-loading-bar');
+    const fsPercentage = document.getElementById('fs-percentage');
+    const fsStatus = document.getElementById('fs-status');
+
+    document.addEventListener("DOMContentLoaded", () => {
+      let progress = 0;
+      
+      const interval = setInterval(() => {
+        progress += Math.floor(Math.random() * 12) + 4; 
+        
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(interval);
+          
+          setTimeout(() => {
+            loaderWrapper.classList.add('opacity-0', 'scale-95');
+            setTimeout(() => {
+              loaderWrapper.classList.add('hidden');
+              enterBtn.classList.remove('hidden');
+              setTimeout(() => {
+                enterBtn.classList.remove('opacity-0', 'scale-95');
+              }, 50);
+            }, 400);
+          }, 300);
+        }
+        
+        loadingBar.style.width = `${progress}%`;
+        loadPercentage.innerText = `${progress}%`;
+      }, 100);
+    });
+
+    function enterGame() {
+      const sound = document.getElementById('click-sound');
+      if(sound) {
+        sound.volume = 0.4;
+        sound.play();
+      }
+
+      card.classList.add('blur-out');
+
+      fsLoader.classList.remove('hidden');
+      setTimeout(() => {
+        fsLoader.classList.remove('opacity-0');
+      }, 50);
+
+      let fsProgress = 0;
+      // Updated Academy Status Lines
+      const statusUpdates = ["Loading Questions...", "Connecting to Classroom...", "Setting Up Dashboard...", "Welcome to Zeba Academy..."];
+      
+      const fsInterval = setInterval(() => {
+        fsProgress += 4; 
+
+        if(fsProgress > 25 && fsProgress < 50) fsStatus.innerText = statusUpdates[0];
+        if(fsProgress > 50 && fsProgress < 75) fsStatus.innerText = statusUpdates[1];
+        if(fsProgress > 75 && fsProgress < 95) fsStatus.innerText = statusUpdates[2];
+        if(fsProgress >= 95) fsStatus.innerText = statusUpdates[3];
+
+        if (fsProgress >= 100) {
+          fsProgress = 100;
+          clearInterval(fsInterval);
+          
+          fsLoader.classList.add('opacity-0');
+          body.style.opacity = '0';
+          body.style.filter = 'blur(20px)';
+
+          setTimeout(() => {
+            window.location.href = "/dashboard.html"; // <-- Apna target link yahan dalein
+          }, 800); 
+        }
+
+        fsLoadingBar.style.width = `${fsProgress}%`;
+        fsPercentage.innerText = `${fsProgress}%`;
+      }, 120); 
+    }
+  </script>
+</body>
+</html>

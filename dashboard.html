@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full overflow-x-hidden">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" content="Zeba Quiz Academy - Select Class">
+  <title>Zeba Quiz Academy - Select Class</title>
+
+  <!-- Preconnect and Tailwind Loading -->
+  <link rel="preconnect" href="https://cdn.tailwindcss.com">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          screens: { 'xs': '480px' }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Premium Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Optimized Styles (No Lag, Safe Layout) -->
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: #040408;
+      -webkit-tap-highlight-color: transparent;
+      overflow-x: hidden;
+      width: 100%;
+    }
+    .font-gaming { font-family: 'Orbitron', sans-serif; }
+    
+    .glass-card {
+      background: rgba(9, 9, 17, 0.75);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .grid-bg {
+      background-image: linear-gradient(rgba(255,255,255,0.01) 1px, transparent 1px), 
+                        linear-gradient(90deg, rgba(255,255,255,0.01) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    /* Hardware Accelerated Transitions */
+    .game-card {
+      transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), 
+                  border-color 0.25s ease, 
+                  box-shadow 0.25s ease,
+                  opacity 0.3s ease,
+                  filter 0.3s ease;
+      transform: translateZ(0);
+      will-change: transform, box-shadow;
+    }
+    
+    .game-card.selected-card {
+      border-color: rgba(6, 182, 212, 0.6) !important;
+      background: linear-gradient(to bottom, rgba(147, 51, 234, 0.12), transparent) !important;
+      box-shadow: 0 10px 25px -5px rgba(147, 51, 234, 0.2);
+    }
+
+    /* Smooth Height Animation */
+    .enter-zone {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.2s ease;
+      opacity: 0;
+    }
+
+    .selected-card .enter-zone {
+      grid-template-rows: 1fr;
+      opacity: 1;
+      padding-top: 12px;
+    }
+  </style>
+
+  <!-- Icons Link -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body class="flex justify-center bg-[#040408] min-h-screen relative">
+
+  <!-- Background Ambiance -->
+  <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+    <div class="absolute inset-0 grid-bg opacity-50"></div>
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[100vw] max-w-[600px] h-[500px] bg-purple-600/5 rounded-full blur-[120px]"></div>
+    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[100vw] max-w-[500px] h-[500px] bg-cyan-500/5 rounded-full blur-[120px]"></div>
+  </div>
+
+  <!-- Main Container -->
+  <div id="main-content" class="w-full max-w-[420px] md:max-w-[768px] min-h-screen relative text-white px-4 pt-6 pb-12 z-10 box-border overflow-x-hidden transition-all duration-500">
+    
+    <!-- HEADER -->
+    <header class="glass-card w-full p-4 rounded-2xl flex items-center justify-center sticky top-4 z-20 shadow-xl">
+      <h1 class="font-gaming text-xl font-black tracking-wider text-white uppercase text-center">
+        ZEBA QUIZ
+        <span class="text-cyan-400 font-bold ml-1 tracking-normal font-sans text-sm">ACADEMY</span>
+      </h1>
+    </header>
+
+    <!-- MAIN CONTENT SECTION -->
+    <main class="mt-8" role="main">
+      <div class="mb-6 select-none">
+        <h2 class="text-xs font-gaming tracking-[0.15em] text-cyan-400 flex items-center gap-2 uppercase font-black">
+          <i class="fa-solid fa-graduation-cap text-purple-400 text-sm"></i> Select Your Learning Empire
+        </h2>
+        <p class="text-[11px] text-gray-500 mt-1 pl-5">Choose a class to unlock your academic portal.</p>
+      </div>
+
+      <!-- HIGH PERFORMANCE GRID -->
+      <div class="grid grid-cols-2 gap-4 w-full" id="classGrid">
+        <!-- JS Cards Injected Here -->
+      </div>
+    </main>
+
+  </div>
+
+  <!-- INSTANT OVERLAY REDIRECT LOADING (Hidden by default) -->
+  <div id="portal-loader" class="hidden opacity-0 fixed inset-0 z-50 bg-[#040408]/90 backdrop-blur-md flex flex-col items-center justify-center transition-all duration-500">
+    <div class="w-full max-w-xs text-center space-y-4 px-6">
+      <div class="relative w-12 h-12 mx-auto flex items-center justify-center">
+        <div class="absolute inset-0 border-2 border-t-purple-500 border-r-cyan-400 border-b-transparent border-l-transparent rounded-full animate-spin"></div>
+        <i class="fa-solid fa-brain text-sm text-cyan-400 animate-pulse"></i>
+      </div>
+      <div class="space-y-2">
+        <h3 class="font-gaming text-[10px] font-bold tracking-[0.25em] text-white uppercase">
+          SYNCHRONIZING PORTAL...
+        </h3>
+        <div class="w-full bg-white/[0.03] h-[3px] rounded-full overflow-hidden border border-white/[0.05]">
+          <div class="h-full bg-gradient-to-r from-purple-500 to-cyan-400 rounded-full w-full animate-[ping_1.5s_ease-in-out_infinite]"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const classGrid = document.getElementById('classGrid');
+    const portalLoader = document.getElementById('portal-loader');
+    const mainContent = document.getElementById('main-content');
+    
+    const themeColors = ['from-purple-500/10', 'from-cyan-500/10', 'from-indigo-500/10', 'from-fuchsia-500/10'];
+    let gridContent = '';
+
+    for (let i = 1; i <= 12; i++) {
+      const cardColor = themeColors[(i - 1) % themeColors.length];
+      gridContent += `
+        <div id="card-${i}" data-class="${i}" class="game-card glass-card rounded-2xl p-4 flex flex-col cursor-pointer bg-gradient-to-b ${cardColor} to-transparent border border-white/[0.03]">
+          
+          <div class="text-center flex-grow flex flex-col items-center justify-center pointer-events-none">
+            <div class="w-10 h-10 rounded-xl bg-[#0d0d18] border border-white/5 flex items-center justify-center mb-3">
+              <i class="fa-solid fa-brain text-lg opacity-40 text-cyan-400"></i>
+            </div>
+            <p class="font-gaming font-bold text-sm tracking-wider text-zinc-100 uppercase">Class ${i}</p>
+            <span id="tap-text-${i}" class="text-[9px] text-zinc-500 mt-0.5 block transition-colors duration-200">Tap to select</span>
+          </div>
+
+          <div class="enter-zone w-full">
+            <div class="overflow-hidden">
+              <button data-btn-class="${i}" class="w-full bg-gradient-to-r from-purple-600 to-cyan-500 rounded-xl py-2 px-3 font-gaming text-[10px] font-bold tracking-[0.15em] text-white hover:shadow-[0_0_15px_rgba(147,51,234,0.3)] active:scale-95 transition-all flex items-center justify-center gap-1.5 cursor-pointer">
+                ENTER <i class="fa-solid fa-circle-arrow-right text-[10px]"></i>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      `;
+    }
+    classGrid.innerHTML = gridContent;
+
+    let currentSelectedCard = null;
+
+    // High Performance Event Delegation
+    classGrid.addEventListener('click', (e) => {
+      const targetCard = e.target.closest('.game-card');
+      if (!targetCard) return;
+
+      const classId = targetCard.getAttribute('data-class');
+      const enterBtn = e.target.closest('button[data-btn-class]');
+      
+      // TRIGGER ANIMATED LOADING ON ENTER
+      if (enterBtn) {
+        // 1. Piche ke content ko blur aur fade out karein
+        mainContent.classList.add('opacity-30', 'blur-[4px]');
+        
+        // 2. High-Tech Loader overlay active karein smoothly
+        portalLoader.classList.remove('hidden');
+        setTimeout(() => {
+          portalLoader.classList.remove('opacity-0');
+        }, 20);
+
+        // 3. 700ms bad seamless redirection
+        setTimeout(() => {
+          window.location.href = `subject.html?class=${classId}`;
+        }, 700);
+        return;
+      }
+
+      // Card layout toggle system
+      if (currentSelectedCard === targetCard) {
+        targetCard.classList.remove('selected-card');
+        document.getElementById(`tap-text-${classId}`).innerText = "Tap to select";
+        currentSelectedCard = null;
+      } else {
+        if (currentSelectedCard) {
+          currentSelectedCard.classList.remove('selected-card');
+          const prevId = currentSelectedCard.getAttribute('data-class');
+          document.getElementById(`tap-text-${prevId}`).innerText = "Tap to select";
+        }
+        
+        targetCard.classList.add('selected-card');
+        document.getElementById(`tap-text-${classId}`).innerText = "Selected";
+        currentSelectedCard = targetCard;
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
